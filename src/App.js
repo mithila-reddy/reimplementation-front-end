@@ -6,6 +6,7 @@ import Assignments from "./components/Assignments/Assignments";
 import Home from "./components/Layout/Home";
 import RootLayout from "./components/Layout/Root";
 import Users from "./components/Users/Users";
+import Courses from "./components/Courses/Courses";
 
 function App() {
   const router = createBrowserRouter([
@@ -18,6 +19,7 @@ function App() {
         { path: "assignments", element: <Assignments /> },
         { path: "assignments/new", element: <AssignmentForm /> },
         { path: "assignments/card", element: <Rubrics /> },
+        { path: "courses", element: <Courses />},
       ],
     },
   ]);
