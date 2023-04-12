@@ -1,121 +1,45 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-const Courses = () => {
-    const [courses, setCourses] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
 
-    const handleSearch = (event) => {
-        setSearchQuery(event.target.value);
-    };
 
-    useEffect(() => {
-        const dummyData = [
-            {
-                id: 1,
-                name: "Course 1",
-                institution: "Institution 9",
-                createdate: "2021-01-12",
-                updatedate: "2021-01-08",
-            },
-            {
-                id: 2,
-                name: "Course 2",
-                institution: "Institution 8",
-                createdate: "2021-01-11",
-                updatedate: "2021-01-10",
-            },
-            {
-                id: 3,
-                name: "Course 3",
-                institution: "Institution 7",
-                createdate: "2021-01-10",
-                updatedate: "2021-01-09",
-            },
-        ];
-        setCourses(dummyData);
-    }, []);
-
-    const filteredData = courses.filter((course) => {
-        const courseName = course.name.toLowerCase();
-        const search = searchQuery.toLowerCase();
-        return courseName.includes(search);
-    });
-
-    const [sortConfig, setSortConfig] = useState({
-        key: 'name',
-        direction: 'ascending'
-    });
-
-    const sortedData = filteredData.sort((a, b) => {
-        if (a[sortConfig.key] < b[sortConfig.key]) {
-            return sortConfig.direction === 'ascending' ? -1 : 1;
-        }
-        if (a[sortConfig.key] > b[sortConfig.key]) {
-            return sortConfig.direction === 'ascending' ? 1 : -1;
-        }
-        return 0;
-    });
-    const handleSortChange = (event) => {
-        const selectedKey = event.target.value;
-        setSortConfig({
-            key: selectedKey,
-            direction: sortConfig.direction
-        });
+const CourseCard = ({ course }) => {
+    const [showAssignments, setShowAssignments] = useState(false);
+  
+    const toggleAssignments = () => {
+      setShowAssignments(!showAssignments);
     }
-
-    const [direction, setDirection] = useState('ascending');
-
-    const handleDirectionChange = (selectedDirection) => {
-        setDirection(selectedDirection);
-        setSortConfig({ ...sortConfig, direction: selectedDirection });
-    }
-
-    const handleSort = (key) => {
-        let direction = 'ascending';
-        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-            direction = 'descending';
-        }
-        setSortConfig({ key, direction });
-    };
-
+  
     return (
-        <div class="container">
-            <h1 class="text-center mb-5">Manage Courses</h1>
-            <form>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Search..." value={searchQuery} onChange={handleSearch} />
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button">Search</button>
-                    </div>
-                </div>
-            </form>
-            <label htmlFor="sort-dropdown">Sort By:</label>
-            <select id="sort-dropdown" onChange={handleSortChange}>
-                <option value="name">Name</option>
-                <option value="institution">Institution</option>
-                <option value="createdate">CreateDate</option>
-                <option value="updatedate">UpdateDate</option>
-            </select>
-            <label htmlFor="direction"> In </label>
-            <select id="direction" value={direction} onChange={(e) => handleDirectionChange(e.target.value)}>
-                <option value="ascending">Ascending</option>
-                <option value="descending">Descending</option>
-            </select>
-            <h3 class="text-center mb-4">My Courses</h3>
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-                {sortedData.map((course) => (
-                    <div class="col">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">{course.name}</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">{course.institution}</h6>
-                                <p class="card-text">
-                                    <strong>Create Date: </strong>{course.createdate}
+        <div class="card-component">
+        <div class="card h-100 text-center">
+             <h5 class="card-header">{course.courseName}</h5>
+      <div class="card-body" onClick={toggleAssignments}>
+       
+        <h6 class="card-subtitle mb-2 text-muted">{course.institution}</h6>
+        <p class="card-text">
+                                    <strong>Create Date: </strong>{course.createDate}
                                     <br />
-                                    <strong>Update Date: </strong>{course.updatedate}
+                                    <strong>Update Date: </strong>{course.updateDate}
                                 </p>
-                            </div>
-                            <div class="card-footer">
+        {showAssignments && (
+          <div className="assignment-list">
+            
+            {course.assignments.map((assignment) => (
+                <div class="card h-50">
+                <div class="card-body">
+              <div key={assignment.assignmentName} className="assignment-card">
+                <h3>{assignment.assignmentName}</h3>
+                <p>{assignment.institution}</p>
+                <p>Created: {assignment.createDate}</p>
+                <p>Last updated: {assignment.updateDate}</p>
+              </div>
+              </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <div class="card-footer">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" fill="currentColor" class="bi bi-pencil-fill"
                                     viewBox="0 0 16 16">
                                     <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
@@ -145,15 +69,167 @@ const Courses = () => {
                                 </svg>
 
                             </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
-
-
+                             
+      </div>
+      <br></br>
+      </div>
     );
+  };
+  
+  const CourseList = ({ courses }) => {
+    const [sortOrder, setSortOrder] = useState('asc');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [sortAttribute, setSortAttribute] = useState('courseName');
+  
+    // Sort courses by name in ascending or descending order
+    const sortedCourses = courses.sort((a, b) => {
+        const comparison = sortOrder === 'asc' ? 1 : -1;
+        if (a[sortAttribute] < b[sortAttribute]) {
+          return -comparison;
+        }
+        if (a[sortAttribute] > b[sortAttribute]) {
+          return comparison;
+        }
+        return 0;
+      });
+  
+    // Filter courses by search term
+    const filteredCourses = sortedCourses.filter((course) =>
+    course.courseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    course.institution.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    course.createDate.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    course.updateDate.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
+    return (
+      <div className="course-list">
+        <div className="sort-controls">
+          <label htmlFor="sort-order">Sort by:</label>
+          <select
+            id="sort-order"
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+          >
+            <option value="asc">A-Z</option>
+            <option value="desc">Z-A</option>
+          </select>
+          <label htmlFor="search-term">Search:</label>
+          <input
+            id="search-term"
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        
+       
+        {filteredCourses.map((course) => (
+          <CourseCard key={course.courseId} course={course} />
+        ))}
 
-};
+     
+      </div>
+    );
+  };
+
+
+
+
+
+const Courses = () => {
+    const dummyData = [
+        {
+          "courseId": 1,
+          "courseName": "Computer Science 101",
+          "institution": "Harvard University",
+          "createDate": "2022-01-01",
+          "updateDate": "2022-02-01",
+          "assignments": [
+            {
+              "assignmentName": "Project 1",
+              "institution": "Harvard University",
+              "createDate": "2022-01-15",
+              "updateDate": "2022-02-01"
+            },
+            {
+              "assignmentName": "Quiz 1",
+              "institution": "Harvard University",
+              "createDate": "2022-01-30",
+              "updateDate": "2022-02-01"
+            }
+          ]
+        },
+        {
+          "courseId": 2,
+          "courseName": "Mathematics 101",
+          "institution": "Massachusetts Institute of Technology",
+          "createDate": "2022-02-15",
+          "updateDate": "2022-03-01",
+          "assignments": [
+            {
+              "assignmentName": "Problem Set 1",
+              "institution": "Massachusetts Institute of Technology",
+              "createDate": "2022-02-25",
+              "updateDate": "2022-03-01"
+            },
+            {
+              "assignmentName": "Midterm Exam",
+              "institution": "Massachusetts Institute of Technology",
+              "createDate": "2022-03-01",
+              "updateDate": "2022-03-10"
+            }
+          ]
+        },
+        {
+          "courseId": 3,
+          "courseName": "English 101",
+          "institution": "Stanford University",
+          "createDate": "2022-03-15",
+          "updateDate": "2022-04-01",
+          "assignments": [
+            {
+              "assignmentName": "Essay 1",
+              "institution": "Stanford University",
+              "createDate": "2022-03-20",
+              "updateDate": "2022-04-01"
+            },
+            {
+              "assignmentName": "Presentation",
+              "institution": "Stanford University",
+              "createDate": "2022-03-30",
+              "updateDate": "2022-04-01"
+            }
+          ]
+        },
+        {
+          "courseId": 4,
+          "courseName": "History 101",
+          "institution": "Yale University",
+          "createDate": "2022-04-15",
+          "updateDate": "2022-05-01",
+          "assignments": [
+            {
+              "assignmentName": "Research Paper",
+              "institution": "Yale University",
+              "createDate": "2022-04-20",
+              "updateDate": "2022-05-01"
+            },
+            {
+              "assignmentName": "Exam 1",
+              "institution": "Yale University",
+              "createDate": "2022-04-30",
+              "updateDate": "2022-05-01"
+            }
+          ]
+        }
+        ];
+    
+      return (
+        <div>
+          <h1>Courses</h1>
+          <CourseList courses={dummyData} />
+        </div>
+      );
+    };
 
 export default Courses;
