@@ -70,13 +70,6 @@ const Courses = () => {
         setSortConfig({ ...sortConfig, direction: selectedDirection });
     }
 
-    const handleSort = (key) => {
-        let direction = 'ascending';
-        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-            direction = 'descending';
-        }
-        setSortConfig({ key, direction });
-    };
 
     return (
         <div class="container">
@@ -102,18 +95,22 @@ const Courses = () => {
                 <option value="descending">Descending</option>
             </select>
             <h3 class="text-center mb-4">My Courses</h3>
-            <div class="row row-cols-1 row-cols-md-3 g-4">
+            
                 {sortedData.map((course) => (
                     <div class="col">
-                        <div class="card h-100">
+                        <div class="card text-center w-100">
+                            <div class="card-header">
+                                {course.name}
+                                </div>
                             <div class="card-body">
-                                <h5 class="card-title">{course.name}</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">{course.institution}</h6>
                                 <p class="card-text">
-                                    <strong>Create Date: </strong>{course.createdate}
-                                    <br />
-                                    <strong>Update Date: </strong>{course.updatedate}
+                                    <strong>Create Date: </strong>{course.createdate}  
+                               <strong> </strong>
+                                <strong>Update Date: </strong>{course.updatedate}
                                 </p>
+                                    
+                                
                             </div>
                             <div class="card-footer">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" fill="currentColor" class="bi bi-pencil-fill"
@@ -146,10 +143,11 @@ const Courses = () => {
 
                             </div>
                         </div>
+                        <br></br>
                     </div>
+                    
                 ))}
             </div>
-        </div>
 
 
     );
