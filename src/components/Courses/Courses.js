@@ -1,77 +1,9 @@
 import { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-
-const CourseCard = ({ course }) => {
-    const [showAssignments, setShowAssignments] = useState(false);
+import Card from '../UI/Card/Card';
+import CardHeader from "../UI/Card/CardHeader";
   
-    const toggleAssignments = () => {
-      setShowAssignments(!showAssignments);
-    }
-  
-    return (
-     
-  
-    
-
-      <div className="card-component p-2">
-  <div className="card">
-    <div className="card-header row">
-      <div className="col-sm-3">
-       <strong> Course Name</strong>
-      </div>
-      <div className="col-sm-3">
-        <strong>Institution</strong>
-      </div>
-      <div className="col-sm-2">
-        <strong>Created Date</strong>
-      </div>
-      <div className="col-sm-2">
-        <strong>Updated Date</strong>
-      </div>
-      <div className="col-sm-2">
-        <strong>Actions</strong>
-      </div>
-    </div>
-    <div className="card-body row" onClick={toggleAssignments}>
-      <div className="card-text col-sm-3">
-        {course.courseName}
-      </div>
-      <div className="card-text col-sm-3">
-        {course.institution}
-      </div>
-      <div className="card-text col-sm-2">
-        {course.createDate}
-      </div>
-      <div className="card-text col-sm-2">
-        {course.updateDate}
-      </div>
-      <div className="card-text col-sm-2">
-        
-      </div>
-    </div>
-    {showAssignments && (
-      <div className="mt-3">
-        <div className="row row-cols-1 row-cols-md-3 g-4">
-          {course.assignments.map((assignment) => (
-            <div key={assignment.assignmentName} className="col">
-              <div className="card h-100">
-                <div className="card-body">
-                  <h5 className="card-title">{assignment.assignmentName}</h5>
-                  <strong> Actions: </strong>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    )}
-  </div>
-</div>
-    );
-  };
-  
-  const CourseList = ({ courses }) => {
+  const CourseList = ({ courses, header }) => {
     const [sortOrder, setSortOrder] = useState('asc');
     const [searchTerm, setSearchTerm] = useState('');
     const [sortAttribute, setSortAttribute] = useState('courseName');
@@ -118,8 +50,9 @@ const CourseCard = ({ course }) => {
         </div>
         
        
+        <CardHeader headerList={header} />
         {filteredCourses.map((course) => (
-          <CourseCard key={course.courseId} course={course} />
+          <Card key={course.courseId} list={course} dataCategory='courses' collapse={true} />
         ))}
 
      
@@ -132,6 +65,7 @@ const CourseCard = ({ course }) => {
 
 
 const Courses = () => {
+    const header = ['Course', 'Institution', 'Create Date', 'Update Date', 'Actions']
     const dummyData = [
         {
           "courseId": 1,
@@ -222,7 +156,7 @@ const Courses = () => {
       return (
         <div>
           <h1>Courses</h1>
-          <CourseList courses={dummyData} />
+          <CourseList courses={dummyData} header={header}/>
         </div>
       );
     };
