@@ -8,16 +8,16 @@ const CourseTableHeader = ({ columnKeys }) => {
       }
     
     return (
-      <div className="card-component p-2">
-        <div className="card">
+      <div className="card-component card" style={{ overflow: "hidden" }}>
+       
           <div className="card-header row">
             {columnKeys.map((key) => (
-              <div key={key} className="col-sm-2">
+              <div key={key} className="col">
                 <strong>{key}</strong>
               </div>
             ))}
           </div>
-        </div>
+      
       </div>
     );
   };

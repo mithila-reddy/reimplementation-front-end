@@ -54,7 +54,7 @@ const CourseList = ({ courses }) => {
         <CourseTableHeader columnKeys={columnKeys} />
 
         {filteredCourses.map((course) => (
-          <CourseCard key={course.courseId} course={course} />
+          <CourseCard key={course.courseId} course={course}  />
         ))}
 
      
