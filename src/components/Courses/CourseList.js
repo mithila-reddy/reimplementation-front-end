@@ -63,7 +63,7 @@ const CourseList = ({ courses }) => {
         <CourseTableHeader columnKeys={columnKeys} onSortClick={handleSortClick} />
 
         {filteredCourses.map((course) => (
-          <CourseCard key={course.courseId} course={course} />
+          <CourseCard key={course.courseId} course={course}  />
         ))}
 
      
