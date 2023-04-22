@@ -6,24 +6,41 @@ import CourseTableHeader from './CourseCardTable';
 const CourseList = ({ courses }) => {
     const [sortOrder, setSortOrder] = useState('asc');
     const [searchTerm, setSearchTerm] = useState('');
-    const [sortAttribute, setSortAttribute] = useState('courseName');
-    const columnKeys = ["Course Name", "Institution", "Created Date", "Updated Date", "Actions"];
+    const columnKeys = [
+      { key: "courseName", label: "Course Name" },
+      { key: "institution", label: "Institution" },
+      { key: "createDate", label: "Created Date" },
+      { key: "updateDate", label: "Updated Date" },
+      { key: "", label: "Actions" }
+    ];
 
   
     // Sort courses by name in ascending or descending order
-    const sortedCourses = courses.sort((a, b) => {
-        const comparison = sortOrder === 'asc' ? 1 : -1;
-        if (a[sortAttribute] < b[sortAttribute]) {
-          return -comparison;
-        }
-        if (a[sortAttribute] > b[sortAttribute]) {
-          return comparison;
-        }
-        return 0;
-      });
-  
+    let sortedCourses = [...courses];
+
     // Filter courses by search term
-    const filteredCourses = sortedCourses.filter((course) =>
+    
+
+  const [sortColumn, setSortColumn] = useState('courseName');
+
+  const handleSortClick = (columnKey) => {
+    if (sortColumn === columnKey) {
+      setSortOrder((prevState) => (prevState === "asc" ? "desc" : "asc"));
+      console.log(columnKey)
+    } else {
+      setSortColumn(columnKey);
+      setSortOrder("asc");
+    }
+  };
+
+  
+  if (sortColumn) {
+    sortedCourses.sort((a, b) => {
+      let comparison = a[sortColumn].localeCompare(b[sortColumn]);
+      return sortOrder === "asc" ? comparison : -comparison;
+    });
+  }
+  const filteredCourses = sortedCourses.filter((course) =>
     course.courseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
     course.institution.toLowerCase().includes(searchTerm.toLowerCase()) ||
     course.createDate.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -33,15 +50,7 @@ const CourseList = ({ courses }) => {
     return (
       <div className="course-list p-3">
         <div className="sort-controls">
-          <label htmlFor="sort-order">Sort by:</label>
-          <select
-            id="sort-order"
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-          >
-            <option value="asc">A-Z</option>
-            <option value="desc">Z-A</option>
-          </select>
+
           <label htmlFor="search-term">Search:</label>
           <input
             id="search-term"
@@ -51,7 +60,7 @@ const CourseList = ({ courses }) => {
           />
         </div>
         <br></br>
-        <CourseTableHeader columnKeys={columnKeys} />
+        <CourseTableHeader columnKeys={columnKeys} onSortClick={handleSortClick} />
 
         {filteredCourses.map((course) => (
           <CourseCard key={course.courseId} course={course} />
