@@ -3,16 +3,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import CourseCard from './CourseCard';
 import CourseTableHeader from './CourseCardTable';
 
-const CourseList = ({ courses }) => {
+const CourseList = ({ courses,columnKeys }) => {
     const [sortOrder, setSortOrder] = useState('asc');
     const [searchTerm, setSearchTerm] = useState('');
-    const columnKeys = [
-      { key: "courseName", label: "Course Name" },
-      { key: "institution", label: "Institution" },
-      { key: "createDate", label: "Created Date" },
-      { key: "updateDate", label: "Updated Date" },
-      { key: "", label: "Actions" }
-    ];
+    
 
   
     // Sort courses by name in ascending or descending order
@@ -21,12 +15,12 @@ const CourseList = ({ courses }) => {
     // Filter courses by search term
     
 
-  const [sortColumn, setSortColumn] = useState('courseName');
+  const [sortColumn, setSortColumn] = useState(null);
 
   const handleSortClick = (columnKey) => {
     if (sortColumn === columnKey) {
       setSortOrder((prevState) => (prevState === "asc" ? "desc" : "asc"));
-      console.log(columnKey)
+      
     } else {
       setSortColumn(columnKey);
       setSortOrder("asc");
@@ -40,12 +34,14 @@ const CourseList = ({ courses }) => {
       return sortOrder === "asc" ? comparison : -comparison;
     });
   }
-  const filteredCourses = sortedCourses.filter((course) =>
-    course.courseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    course.institution.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    course.createDate.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    course.updateDate.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredCourses = sortedCourses.filter((course) => {
+    const values = Object.values(course);
+    return values.some((value) =>
+      typeof value === "string" && value.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+  
+  
   
     return (
       <div className="course-list p-3">

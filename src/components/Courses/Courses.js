@@ -4,6 +4,14 @@ import CourseList from './CourseList';
 
 
 const Courses = () => {
+
+  const columnKeys = [
+    { key: "courseName", label: "Course Name" },
+    { key: "institution", label: "Institution" },
+    { key: "createDate", label: "Created Date" },
+    { key: "updateDate", label: "Updated Date" },
+    { key: "", label: "Actions" }
+  ];
     const dummyData = [
         {
           "courseId": 1,
@@ -94,7 +102,7 @@ const Courses = () => {
       return (
         <div>
           <h1>Courses</h1>
-          <CourseList courses={dummyData} />
+          <CourseList courses={dummyData} columnKeys={columnKeys} />
         </div>
       );
     };

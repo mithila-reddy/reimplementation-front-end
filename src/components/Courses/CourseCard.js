@@ -1,58 +1,31 @@
 import { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import CourseList  from "./CourseList";
 
-
-export const AssignmentsCard = ({ assignments }) => {
-  const columnKeys=['AssignmentName','Institution','Created Date','Updated Date','Actions']
-
-  return (
-
-
-    <div className="card-component rounded" style={{ overflow: "hidden" , width: "80%" ,marginLeft: "auto"}}>
-
-
-  <div className="card-header row ">
-              {columnKeys.map((key) => (
-                <div key={key} className="col"> 
-                  <strong>{key}</strong>
-                </div>
-              ))}
-            </div>
-
-        {assignments.map((assignment) => (
-          <div key={assignment.assignmentName} className="card-text col">
-            <div className="card"  style={{ marginBottom: "0px" }}
-            onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#f2f2f2"}
-            onMouseOut={(e) => e.currentTarget.style.backgroundColor = ""}
-            >
-
-            <div className="card-body row">
-            <div className="card-text col" style={{ wordWrap: 'break-word', borderRight: '1px solid black'  }}>{assignment.assignmentName}</div>
-            <div className="card-text col" style={{ wordWrap: 'break-word', borderRight: '1px solid black' }}>{assignment.institution}</div>
-            <div className="card-text col" style={{ wordWrap: 'break-word', borderRight: '1px solid black' }}>{assignment.createDate}</div>
-            <div className="card-text col" style={{ wordWrap: 'break-word' , borderRight: '1px solid black'}}>{assignment.updateDate}</div>
-            <div className="card-text col" style={{ wordWrap: 'break-word' }}></div>
-            
-          </div>
-            </div>
-          </div>
-        ))}
-    </div>
-  );
-};
-
-
-  
   const CourseCard = ({ course }) => {
     const [showAssignments, setShowAssignments] = useState(false);
+    const keys = Object.keys(course).filter(key => key !== 'assignments' && !key.includes("Id"));
+    const columnKeys = [
+      { key: "assignmentName", label: "Assignment Name" },
+      { key: "institution", label: "Institution" },
+      { key: "createDate", label: "Created Date" },
+      { key: "updateDate", label: "Updated Date" },
+      { key: "", label: "Actions" }
+    ];
+    function handleClick(event) {
+      event.stopPropagation();
+    
+    }
   
     const toggleAssignments = (assignments) => {
+      
         if(!assignments)
         {
-            setShowAssignments(showAssignments)
+         
         }
         else{
-      setShowAssignments(!showAssignments);
+        setShowAssignments(!showAssignments);
+        
         }
     };
     if (!course) {
@@ -68,15 +41,27 @@ export const AssignmentsCard = ({ assignments }) => {
            onMouseOut={(e) => e.currentTarget.style.backgroundColor = ""}>
             
           <div className="card-body row" onClick={() => toggleAssignments(course.assignments)} >
-            <div className="card-text col" style={{ wordWrap: 'break-word', borderRight: '1px solid black'  }}>{course.courseName}</div>
-            <div className="card-text col" style={{ wordWrap: 'break-word', borderRight: '1px solid black' }}>{course.institution}</div>
-            <div className="card-text col" style={{ wordWrap: 'break-word', borderRight: '1px solid black' }}>{course.createDate}</div>
-            <div className="card-text col" style={{ wordWrap: 'break-word' , borderRight: '1px solid black'}}>{course.updateDate}</div>
-            <div className="card-text col" style={{ wordWrap: 'break-word' }}></div>
+          {keys.map((key, index) => (
+        <div key={index} className="card-text col" style={{ wordWrap: 'break-word', borderRight: '1px solid black' }}>
+          {course[key]}
+        </div>
+      ))}
+      <div className="card-text col" style={{ wordWrap: 'break-word' }}>
+            
           </div>
 
-          {showAssignments && <AssignmentsCard assignments={course.assignments} />}
+          {showAssignments && 
+           <div onClick={handleClick}>
+        <CourseList  courses={course.assignments} columnKeys={columnKeys} />
+        </div>
 
+        
+
+
+       
+    }
+
+        </div>
         </div>
         </div>
         
