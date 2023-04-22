@@ -21,7 +21,10 @@ export const AssignmentsCard = ({ assignments }) => {
 
         {assignments.map((assignment) => (
           <div key={assignment.assignmentName} className="card-text col">
-            <div className="card"  style={{ marginBottom: "0px" }}>
+            <div className="card"  style={{ marginBottom: "0px" }}
+            onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#f2f2f2"}
+            onMouseOut={(e) => e.currentTarget.style.backgroundColor = ""}
+            >
 
             <div className="card-body row">
             <div className="card-text col" style={{ wordWrap: 'break-word', borderRight: '1px solid black'  }}>{assignment.assignmentName}</div>
@@ -60,8 +63,11 @@ export const AssignmentsCard = ({ assignments }) => {
     return (
       
         <div style={{ marginBottom: "5px" }}>
-        <div className="card-component p-2 card">
-          <div className="card-body row" onClick={() => toggleAssignments(course.assignments)}>
+        <div className="card-component p-2 card"
+           onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#f2f2f2"}
+           onMouseOut={(e) => e.currentTarget.style.backgroundColor = ""}>
+            
+          <div className="card-body row" onClick={() => toggleAssignments(course.assignments)} >
             <div className="card-text col" style={{ wordWrap: 'break-word', borderRight: '1px solid black'  }}>{course.courseName}</div>
             <div className="card-text col" style={{ wordWrap: 'break-word', borderRight: '1px solid black' }}>{course.institution}</div>
             <div className="card-text col" style={{ wordWrap: 'break-word', borderRight: '1px solid black' }}>{course.createDate}</div>
