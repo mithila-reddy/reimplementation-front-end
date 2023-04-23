@@ -1,8 +1,8 @@
 import { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import CourseList  from "./CourseList";
+import CardList  from "./CardList";
 
-  const CourseCard = ({ course }) => {
+  const Card = ({ course }) => {
     const [showAssignments, setShowAssignments] = useState(false);
     const keys = Object.keys(course).filter(key => key !== 'assignments' && !key.includes("Id"));
     const columnKeys = [
@@ -52,7 +52,7 @@ import CourseList  from "./CourseList";
 
           {showAssignments && 
            <div onClick={handleClick}>
-        <CourseList  courses={course.assignments} columnKeys={columnKeys} />
+        <CardList  courses={course.assignments} columnKeys={columnKeys} />
         </div>
 
         
@@ -68,4 +68,4 @@ import CourseList  from "./CourseList";
     );
   };
 
-  export default CourseCard;
+  export default Card;

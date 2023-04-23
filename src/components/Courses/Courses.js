@@ -1,6 +1,5 @@
-import { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import CourseList from './CourseList';
+import CardList from '../UI/Card/CardList';
 
 
 const Courses = () => {
@@ -102,7 +101,7 @@ const Courses = () => {
       return (
         <div>
           <h1>Courses</h1>
-          <CourseList courses={dummyData} columnKeys={columnKeys} />
+          <CardList courses={dummyData} columnKeys={columnKeys} />
         </div>
       );
     };

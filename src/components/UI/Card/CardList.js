@@ -1,9 +1,9 @@
 import { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import CourseCard from './CourseCard';
-import CourseTableHeader from './CourseCardTable';
+import Card from './Card';
+import CardHeader from './CardHeader';
 
-const CourseList = ({ courses,columnKeys }) => {
+const CardList = ({ courses,columnKeys }) => {
     const [sortOrder, setSortOrder] = useState('asc');
     const [searchTerm, setSearchTerm] = useState('');
     
@@ -56,10 +56,10 @@ const CourseList = ({ courses,columnKeys }) => {
           />
         </div>
         <br></br>
-        <CourseTableHeader columnKeys={columnKeys} onSortClick={handleSortClick} />
+        <CardHeader columnKeys={columnKeys} onSortClick={handleSortClick} />
 
         {filteredCourses.map((course) => (
-          <CourseCard key={course.courseId} course={course}  />
+          <Card key={course.courseId} course={course}  />
         ))}
 
      
@@ -67,4 +67,4 @@ const CourseList = ({ courses,columnKeys }) => {
     );
   };
 
-  export default CourseList;
+  export default CardList;

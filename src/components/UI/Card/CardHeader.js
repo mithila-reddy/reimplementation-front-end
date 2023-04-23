@@ -2,7 +2,7 @@ import { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-const CourseTableHeader = ({ columnKeys ,onSortClick}) => {
+const CardHeader = ({ columnKeys ,onSortClick}) => {
   const [sortColumn, setSortColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState(null);
 
@@ -48,4 +48,4 @@ const CourseTableHeader = ({ columnKeys ,onSortClick}) => {
   );
 };
   
-export default CourseTableHeader;
+export default CardHeader;
