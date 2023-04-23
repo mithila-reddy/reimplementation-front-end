@@ -47,7 +47,14 @@ import CardList  from "./CardList";
         </div>
       ))}
       <div className="card-text col" style={{ wordWrap: 'break-word' }}>
-            
+        <img src={`${process.env.PUBLIC_URL}/assets/actions/add-assignment-24.png`} alt="Add Assignment" />
+        <img src={`${process.env.PUBLIC_URL}/assets/actions/add-participant-24.png`} alt="Add Participant" />
+        <img src={`${process.env.PUBLIC_URL}/assets/actions/add-ta-24.png`} alt="Add TA" />
+        <img src={`${process.env.PUBLIC_URL}/assets/actions/Copy-icon-24.png`} alt="Copy" />
+        <img src={`${process.env.PUBLIC_URL}/assets/actions/delete-icon-24.png`} alt="Delete" />
+        <img src={`${process.env.PUBLIC_URL}/assets/actions/edit-icon-24.png`} alt="Edit" />
+        <img src={`${process.env.PUBLIC_URL}/assets/actions/create-teams-24.png`} alt="Create Teams" />
+        <img src={`${process.env.PUBLIC_URL}/assets/actions/360-dashboard-24.png`} alt="Dashboard" />
           </div>
 
           {showAssignments && 
